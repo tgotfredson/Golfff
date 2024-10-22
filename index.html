@@ -147,55 +147,46 @@ td {
     }
 
     function submitScore() {
-      let username = document.getElementById('username-input').value;
+  let username = document.getElementById('username-input').value;
   let course = document.getElementById('course-input').value;
   let score = parseFloat(document.getElementById('score-input').value);
   let handicap = parseFloat(document.getElementById('handicap-input').value);
   let difficulty = parseFloat(document.getElementById('difficulty').value);
+  let weightedScore = (score - handicap) * (113 / difficulty);
 
-  // Check if username exists
-  if (!users[username]) {
-    let addUser = confirm(`Username "${username}" does not exist. Would you like to add it?`);
-    if (addUser) {
-      users[username] = []; // Initialize the user with an empty array of scores
-      alert(`Username "${username}" has been added.`);
-    } else {
-      return; // Stop if the user does not want to add the username
+  // Create an object with the score data
+  let scoreData = {
+    username: username,
+    course: course,
+    score: score,
+    handicap: handicap,
+    difficulty: difficulty,
+    weightedScore: weightedScore
+  };
+
+  // Send the data to the Google Sheets Web App
+  fetch('https://script.google.com/macros/s/AKfycbzdPiXq45z8PXupKhJvEz6egjwjXjKc9G911LqSvziNHHhwOASbnWjwVZL1dXA94NUCfA/exec', {
+    method: 'POST',
+    body: JSON.stringify(scoreData),
+    headers: {
+      'Content-Type': 'application/json'
     }
-  }
-
-  if (course && score && handicap && difficulty) {
-    let weightedScore = (score - handicap) * (113 / difficulty);
-    let scoreEntry = { course, score, handicap, difficulty, weightedScore };
-
-    // Add the score to the user's scores
-    users[username].push(scoreEntry);
-
-    leaderboard.push({ username, course, score, handicap, difficulty, weightedScore });
-    displayLeaderboard();
-
-    // Display result and weighted score explanation
-    alert(`Score Submitted!\n
-      Course: ${course}\n
-      Score: ${score}\n
-      Handicap: ${handicap}\n
-      Difficulty Index: ${difficulty}\n
-      Weighted Score: ${weightedScore.toFixed(2)}\n\n
-      Weighted Score Calculation:\n
-      (Score - Handicap) * (113 / Difficulty Index)\n
-      (${score} - ${handicap}) * (113 / ${difficulty}) = ${weightedScore.toFixed(2)}
-    `);
-  } else {
-    alert("Please fill in all fields.");
-  }
+  }).then(response => response.text())
+    .then(result => alert(result));
 }
-    function displayLeaderboard() {
+ function displayLeaderboard() {
+  fetch('https://script.google.com/macros/s/AKfycbzdPiXq45z8PXupKhJvEz6egjwjXjKc9G911LqSvziNHHhwOASbnWjwVZL1dXA94NUCfA/exec')
+    .then(response => response.json())
+    .then(data => {
       let table = document.getElementById('leaderboard');
       table.innerHTML = '<tr><th>Username</th><th>Course</th><th>Score</th><th>Handicap</th><th>Difficulty</th><th>Weighted Score</th></tr>';
-      leaderboard.forEach(entry => {
+      data.forEach(entry => {
         let row = table.insertRow();
-        row.innerHTML = `<td>${entry.username}</td><td>${entry.course}</td><td>${entry.score}</td><td>${entry.handicap}</td><td>${entry.difficulty}</td><td>${entry.weightedScore.toFixed(2)}</td>`;
+        row.innerHTML = `<td>${entry[0]}</td><td>${entry[1]}</td><td>${entry[2]}</td><td>${entry[3]}</td><td>${entry[4]}</td><td>${entry[5]}</td>`;
       });
+    });
+}
+
     }
   </script>
 </head>
