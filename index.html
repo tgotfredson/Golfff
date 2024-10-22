@@ -163,7 +163,7 @@
 
   console.log(scoreData); // Debugging line
 
-  // Send the data to the Google Sheets Web App
+  /// Send the data to the Google Sheets Web App
   fetch('https://script.google.com/macros/s/AKfycbwElgd2SxtDOoqO0erraQrnsPWrbkQn6gunIfmtYwsKxyZ4KeHkKaHu0gIH8PgNhcIIWA/exec', {
     method: 'POST',
     body: JSON.stringify(scoreData),
