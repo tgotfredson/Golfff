@@ -1,0 +1,10 @@
+[
+    {
+        "username": "player1",
+        "course": "Torrey Pines North",
+        "score": 85,
+        "handicap": 15,
+        "difficulty": 74.0,
+        "weightedScore": 82.57
+    }
+]
