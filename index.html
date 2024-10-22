@@ -187,20 +187,14 @@ td {
     alert("Please fill in all fields.");
   }
 }
-// Fetch and display the leaderboard data from the leaderboard.json file
-function displayLeaderboard() {
-    fetch('leaderboard.json')
-    .then(response => response.json())
-    .then(data => {
-        let table = document.getElementById('leaderboard');
-        table.innerHTML = '<tr><th>Username</th><th>Course</th><th>Score</th><th>Handicap</th><th>Difficulty</th><th>Weighted Score</th></tr>';
-        data.forEach(entry => {
-            let row = table.insertRow();
-            row.innerHTML = `<td>${entry.username}</td><td>${entry.course}</td><td>${entry.score}</td><td>${entry.handicap}</td><td>${entry.difficulty}</td><td>${entry.weightedScore.toFixed(2)}</td>`;
-        });
-    });
-}
-
+    function displayLeaderboard() {
+      let table = document.getElementById('leaderboard');
+      table.innerHTML = '<tr><th>Username</th><th>Course</th><th>Score</th><th>Handicap</th><th>Difficulty</th><th>Weighted Score</th></tr>';
+      leaderboard.forEach(entry => {
+        let row = table.insertRow();
+        row.innerHTML = `<td>${entry.username}</td><td>${entry.course}</td><td>${entry.score}</td><td>${entry.handicap}</td><td>${entry.difficulty}</td><td>${entry.weightedScore.toFixed(2)}</td>`;
+      });
+    }
   </script>
 </head>
 <body>
