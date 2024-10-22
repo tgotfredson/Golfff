@@ -1,25 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Golf App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, select {
+            width: 200px;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 8px 16px;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <h1>Golf Score Input</h1>
-    <form action="/submit" method="POST">
+
+    <form id="golfForm">
         <label for="course">Course:</label>
-        <select name="course">
-            {% for course in courses %}
-                <option value="{{ course[0] }}">{{ course[1] }}</option>
-            {% endfor %}
-        </select><br>
+        <select id="course" required>
+            <!-- Course options will be loaded dynamically -->
+        </select>
 
         <label for="score">Score:</label>
-        <input type="number" name="score" required><br>
+        <input type="number" id="score" required>
 
         <label for="handicap">Handicap:</label>
-        <input type="number" step="0.1" name="handicap" required><br>
+        <input type="number" id="handicap" required step="0.1">
 
-        <input type="submit" value="Submit">
+        <button type="submit">Submit</button>
     </form>
+
+    <div id="result"></div>
+
+    <script>
+        // Simulated database of golf courses
+        const courses = [
+            { name: "Pebble Beach", par: 72, slopeRating: 145, courseRating: 74.5 },
+            { name: "Augusta National", par: 72, slopeRating: 137, courseRating: 75.6 },
+            { name: "St. Andrews", par: 72, slopeRating: 140, courseRating: 73.2 }
+        ];
+
+        // Populate course dropdown
+        const courseSelect = document.getElementById('course');
+        courses.forEach((course, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = course.name;
+            courseSelect.appendChild(option);
+        });
+
+        // Function to calculate strokes over par
+        function calculateStrokesOverPar(score, par) {
+            return score - par;
+        }
+
+        // Function to calculate difficulty index
+        function calculateDifficulty(handicap, slopeRating, courseRating) {
+            return (handicap * slopeRating / 113) + (courseRating - 72);
+        }
+
+        // Handle form submission
+        document.getElementById('golfForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const courseIndex = courseSelect.value;
+            const score = parseInt(document.getElementById('score').value);
+            const handicap = parseFloat(document.getElementById('handicap').value);
+
+            const selectedCourse = courses[courseIndex];
+            const strokesOverPar = calculateStrokesOverPar(score, selectedCourse.par);
+            const difficultyIndex = calculateDifficulty(handicap, selectedCourse.slopeRating, selectedCourse.courseRating);
+
+            // Display the result
+            document.getElementById('result').textContent = `Strokes over par: ${strokesOverPar}, Difficulty Index: ${difficultyIndex.toFixed(2)}`;
+        });
+    </script>
 </body>
 </html>
