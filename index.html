@@ -143,7 +143,7 @@
       }
     }
 
- function submitScore() {
+function submitScore() {
   let username = document.getElementById('username-input').value;
   let course = document.getElementById('course-input').value;
   let score = parseFloat(document.getElementById('score-input').value);
@@ -161,7 +161,7 @@
     weightedScore: weightedScore
   };
 
-  fetch('https://script.google.com/macros/s/AKfycbwElgd2SxtDOoqO0erraQrnsPWrbkQn6gunIfmtYwsKxyZ4KeHkKaHu0gIH8PgNhcIIWA/exec', {
+  fetch('https://script.google.com/macros/s/YOUR_DEPLOYED_URL/exec', {
     method: 'POST',
     body: JSON.stringify(scoreData),
     headers: {
@@ -170,7 +170,7 @@
   })
   .then(response => response.text())
   .then(result => {
-    alert(result);
+    alert(result); // Confirm success
     displayLeaderboard(); // Refresh the leaderboard after submission
   })
   .catch(error => {
@@ -178,7 +178,6 @@
     alert('Failed to submit the score. Please try again.');
   });
 }
-
 
     function displayLeaderboard() {
       fetch('https://script.google.com/macros/s/AKfycbwElgd2SxtDOoqO0erraQrnsPWrbkQn6gunIfmtYwsKxyZ4KeHkKaHu0gIH8PgNhcIIWA/exec')
