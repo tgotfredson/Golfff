@@ -6,87 +6,84 @@
   <title>Golf Tournament</title>
   <style>
     body {
-  font-family: 'Verdana', sans-serif;
-  background-image: url('https://example.com/golf-background.jpg'); /* Replace with an actual image URL */
-  background-color: #e0f8d8; /* Light green background */
-  background-size: cover;
-  background-position: center;
-  margin: 0;
-  padding: 0;
-}
+      font-family: 'Verdana', sans-serif;
+      background-image: url('https://example.com/golf-background.jpg'); /* Replace with an actual image URL */
+      background-color: #e0f8d8; /* Light green background */
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      padding: 0;
+    }
 
-h1, h2 {
-  <img src="https://example.com/golf-ball-icon.png" alt="Golf Ball" width="50" style="display:block; margin:auto;">
-  text-align: center;
-  color: #1e5128; /* Dark golf-course green */
-  font-family: 'Comic Sans MS', cursive; /* Add playful font for headings */
-  text-shadow: 2px 2px 4px #5c8a49; /* Adding some shadow */
-}
+    h1, h2 {
+      text-align: center;
+      color: #1e5128; /* Dark golf-course green */
+      font-family: 'Comic Sans MS', cursive; /* Add playful font for headings */
+      text-shadow: 2px 2px 4px #5c8a49; /* Adding some shadow */
+    }
 
-input, button {
-  padding: 10px;
-  width: 300px;
-  margin: 10px auto;
-  display: block;
-  font-size: 16px;
-  border: 2px solid #1e5128; /* Green border */
-  background-color: #b6edc8; /* Light green background for input */
-  border-radius: 8px;
-}
+    input, button {
+      padding: 10px;
+      width: 300px;
+      margin: 10px auto;
+      display: block;
+      font-size: 16px;
+      border: 2px solid #1e5128; /* Green border */
+      background-color: #b6edc8; /* Light green background for input */
+      border-radius: 8px;
+    }
 
-button {
-  background-color: #1e5128;
-  color: white;
-  cursor: pointer;
-  transition: transform 0.2s; /* Adds animation effect */
-}
+    button {
+      background-color: #1e5128;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s; /* Adds animation effect */
+    }
 
-button:hover {
-  background-color: #417d3e;
-  transform: scale(1.05); /* Grow slightly on hover */
-}
+    button:hover {
+      background-color: #417d3e;
+      transform: scale(1.05); /* Grow slightly on hover */
+    }
 
-table {
-  width: 80%;
-  margin: 20px auto;
-  border-collapse: collapse;
-  background-color: #e6ffea; /* Soft green for table background */
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
-}
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: #e6ffea; /* Soft green for table background */
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+    }
 
-th, td {
-  padding: 15px;
-  border: 1px solid #1e5128;
-  text-align: center;
-  font-size: 16px;
-}
+    th, td {
+      padding: 15px;
+      border: 1px solid #1e5128;
+      text-align: center;
+      font-size: 16px;
+    }
 
-th {
-  background-color: #1e5128;
-  color: white;
-  text-shadow: 1px 1px 2px #5c8a49;
-}
+    th {
+      background-color: #1e5128;
+      color: white;
+      text-shadow: 1px 1px 2px #5c8a49;
+    }
 
-td {
-  background-color: #f9f9f9;
-}
+    td {
+      background-color: #f9f9f9;
+    }
 
-#course-results div {
-  background-color: #b6edc8;
-  border: 1px solid #1e5128;
-  margin: 5px;
-  padding: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+    #course-results div {
+      background-color: #b6edc8;
+      border: 1px solid #1e5128;
+      margin: 5px;
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-#course-results div:hover {
-  <img src="https://example.com/golf-flag-pop-art.jpg" alt="Golf Flag Art" width="200" style="display:block; margin:auto; padding:20px 0;">
-  background-color: #8fd3a3;
-}
-
+    #course-results div:hover {
+      background-color: #8fd3a3;
+    }
   </style>
   <script>
     let courses = {
@@ -147,51 +144,54 @@ td {
     }
 
     function submitScore() {
-  let username = document.getElementById('username-input').value;
-  let course = document.getElementById('course-input').value;
-  let score = parseFloat(document.getElementById('score-input').value);
-  let handicap = parseFloat(document.getElementById('handicap-input').value);
-  let difficulty = parseFloat(document.getElementById('difficulty').value);
-  let weightedScore = (score - handicap) * (113 / difficulty);
+      let username = document.getElementById('username-input').value;
+      let course = document.getElementById('course-input').value;
+      let score = parseFloat(document.getElementById('score-input').value);
+      let handicap = parseFloat(document.getElementById('handicap-input').value);
+      let difficulty = parseFloat(document.getElementById('difficulty').value);
+      let weightedScore = (score - handicap) * (113 / difficulty);
 
-  // Create an object with the score data
-  let scoreData = {
-    username: username,
-    course: course,
-    score: score,
-    handicap: handicap,
-    difficulty: difficulty,
-    weightedScore: weightedScore
-  };
+      // Create an object with the score data
+      let scoreData = {
+        username: username,
+        course: course,
+        score: score,
+        handicap: handicap,
+        difficulty: difficulty,
+        weightedScore: weightedScore
+      };
 
-  // Send the data to the Google Sheets Web App
-  fetch('https://script.google.com/macros/s/AKfycbzdPiXq45z8PXupKhJvEz6egjwjXjKc9G911LqSvziNHHhwOASbnWjwVZL1dXA94NUCfA/exec', {
-    method: 'POST',
-    body: JSON.stringify(scoreData),
-    headers: {
-      'Content-Type': 'application/json'
+      // Send the data to the Google Sheets Web App
+      fetch('https://script.google.com/macros/s/AKfycbzdPiXq45z8PXupKhJvEz6egjwjXjKc9G911LqSvziNHHhwOASbnWjwVZL1dXA94NUCfA/exec', {
+        method: 'POST',
+        body: JSON.stringify(scoreData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(response => response.text())
+        .then(result => {
+          alert(result);
+          displayLeaderboard(); // Refresh the leaderboard after submission
+        });
     }
-  }).then(response => response.text())
-    .then(result => alert(result));
-}
- function displayLeaderboard() {
-  fetch('https://script.google.com/macros/s/AKfycbzdPiXq45z8PXupKhJvEz6egjwjXjKc9G911LqSvziNHHhwOASbnWjwVZL1dXA94NUCfA/exec')
-    .then(response => response.json())
-    .then(data => {
-      let table = document.getElementById('leaderboard');
-      table.innerHTML = '<tr><th>Username</th><th>Course</th><th>Score</th><th>Handicap</th><th>Difficulty</th><th>Weighted Score</th></tr>';
-      data.forEach(entry => {
-        let row = table.insertRow();
-        row.innerHTML = `<td>${entry[0]}</td><td>${entry[1]}</td><td>${entry[2]}</td><td>${entry[3]}</td><td>${entry[4]}</td><td>${entry[5]}</td>`;
-      });
-    });
-}
 
+    function displayLeaderboard() {
+      fetch('https://script.google.com/macros/s/AKfycbzdPiXq45z8PXupKhJvEz6egjwjXjKc9G911LqSvziNHHhwOASbnWjwVZL1dXA94NUCfA/exec')
+        .then(response => response.json())
+        .then(data => {
+          let table = document.getElementById('leaderboard');
+          table.innerHTML = '<tr><th>Username</th><th>Course</th><th>Score</th><th>Handicap</th><th>Difficulty</th><th>Weighted Score</th></tr>';
+          data.forEach(entry => {
+            let row = table.insertRow();
+            row.innerHTML = `<td>${entry[0]}</td><td>${entry[1]}</td><td>${entry[2]}</td><td>${entry[3]}</td><td>${entry[4]}</td><td>${entry[5]}</td>`;
+          });
+        });
     }
   </script>
 </head>
 <body>
   <h1>Golf Tournament Score Entry</h1>
+  <img src="https://example.com/golf-ball-icon.png" alt="Golf Ball" width="50" style="display:block; margin:auto;">
 
   <label for="username-input">Username:</label>
   <input type="text" id="username-input" placeholder="Enter Username" required>
@@ -214,5 +214,6 @@ td {
   <h2>Leaderboard</h2>
   <table id="leaderboard"></table>
 
+  <img src="https://example.com/golf-flag-pop-art.jpg" alt="Golf Flag Art" width="200" style="display:block; margin:auto; padding:20px 0;">
 </body>
 </html>
