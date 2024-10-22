@@ -1,97 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Golf App</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Golf Tournament</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    input { padding: 10px; width: 300px; margin-bottom: 10px; }
+    button { padding: 10px 20px; }
+    table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+    th, td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+    th { background-color: #f4f4f4; }
+  </style>
+  <script>
+    let courses = {
+      "Pebble Beach": 75.1,
+      "Augusta National": 78.3,
+      "St. Andrews": 73.2,
+      "Pinehurst No. 2": 76.0
+    };
+    
+    let leaderboard = [];
+
+    function searchCourse() {
+      let input = document.getElementById('course-input').value.toLowerCase();
+      let resultList = document.getElementById('course-results');
+      resultList.innerHTML = '';
+      for (let course in courses) {
+        if (course.toLowerCase().includes(input)) {
+          let option = document.createElement('div');
+          option.innerText = course;
+          option.onclick = function() {
+            document.getElementById('course-input').value = course;
+            document.getElementById('difficulty').value = courses[course];
+            resultList.innerHTML = '';
+          };
+          resultList.appendChild(option);
         }
-        form {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-        }
-        input, select {
-            width: 200px;
-            padding: 8px;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 8px 16px;
-        }
-        #result {
-            margin-top: 20px;
-            font-weight: bold;
-        }
-    </style>
+      }
+    }
+
+    function submitScore() {
+      let course = document.getElementById('course-input').value;
+      let score = parseFloat(document.getElementById('score-input').value);
+      let handicap = parseFloat(document.getElementById('handicap-input').value);
+      let difficulty = parseFloat(document.getElementById('difficulty').value);
+
+      if (course && score && handicap && difficulty) {
+        let weightedScore = (score - handicap) * (113 / difficulty);
+        leaderboard.push({ course, score, handicap, difficulty, weightedScore });
+        displayLeaderboard();
+      } else {
+        alert("Please fill in all fields.");
+      }
+    }
+
+    function displayLeaderboard() {
+      let table = document.getElementById('leaderboard');
+      table.innerHTML = '<tr><th>Course</th><th>Score</th><th>Handicap</th><th>Difficulty</th><th>Weighted Score</th></tr>';
+      leaderboard.forEach(entry => {
+        let row = table.insertRow();
+        row.innerHTML = `<td>${entry.course}</td><td>${entry.score}</td><td>${entry.handicap}</td><td>${entry.difficulty}</td><td>${entry.weightedScore.toFixed(2)}</td>`;
+      });
+    }
+  </script>
 </head>
 <body>
-    <h1>Golf Score Input</h1>
+  <h1>Golf Tournament Score Entry</h1>
 
-    <form id="golfForm">
-        <label for="course">Course:</label>
-        <select id="course" required>
-            <!-- Course options will be loaded dynamically -->
-        </select>
+  <label for="course-input">Golf Course:</label>
+  <input type="text" id="course-input" oninput="searchCourse()">
+  <div id="course-results"></div>
 
-        <label for="score">Score:</label>
-        <input type="number" id="score" required>
+  <label for="score-input">Your Score:</label>
+  <input type="number" id="score-input">
 
-        <label for="handicap">Handicap:</label>
-        <input type="number" id="handicap" required step="0.1">
+  <label for="handicap-input">Your Handicap:</label>
+  <input type="number" id="handicap-input">
 
-        <button type="submit">Submit</button>
-    </form>
+  <label for="difficulty">Course Difficulty Index:</label>
+  <input type="number" id="difficulty" readonly>
 
-    <div id="result"></div>
+  <button onclick="submitScore()">Submit Score</button>
 
-    <script>
-        // Simulated database of golf courses
-        const courses = [
-            { name: "Pebble Beach", par: 72, slopeRating: 145, courseRating: 74.5 },
-            { name: "Augusta National", par: 72, slopeRating: 137, courseRating: 75.6 },
-            { name: "St. Andrews", par: 72, slopeRating: 140, courseRating: 73.2 }
-        ];
+  <h2>Leaderboard</h2>
+  <table id="leaderboard"></table>
 
-        // Populate course dropdown
-        const courseSelect = document.getElementById('course');
-        courses.forEach((course, index) => {
-            const option = document.createElement('option');
-            option.value = index;
-            option.textContent = course.name;
-            courseSelect.appendChild(option);
-        });
-
-        // Function to calculate strokes over par
-        function calculateStrokesOverPar(score, par) {
-            return score - par;
-        }
-
-        // Function to calculate difficulty index
-        function calculateDifficulty(handicap, slopeRating, courseRating) {
-            return (handicap * slopeRating / 113) + (courseRating - 72);
-        }
-
-        // Handle form submission
-        document.getElementById('golfForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const courseIndex = courseSelect.value;
-            const score = parseInt(document.getElementById('score').value);
-            const handicap = parseFloat(document.getElementById('handicap').value);
-
-            const selectedCourse = courses[courseIndex];
-            const strokesOverPar = calculateStrokesOverPar(score, selectedCourse.par);
-            const difficultyIndex = calculateDifficulty(handicap, selectedCourse.slopeRating, selectedCourse.courseRating);
-
-            // Display the result
-            document.getElementById('result').textContent = `Strokes over par: ${strokesOverPar}, Difficulty Index: ${difficultyIndex.toFixed(2)}`;
-        });
-    </script>
 </body>
 </html>
