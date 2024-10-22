@@ -7,10 +7,7 @@
   <style>
     body {
       font-family: 'Verdana', sans-serif;
-      background-image: url('https://images.pexels.com/photos/54123/pexels-photo-54123.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); /* Replace with an actual image URL */
-      background-color: #e0f8d8; /* Light green background */
-      background-size: cover;
-      background-position: center;
+      background-color: #e0f8d8;
       margin: 0;
       padding: 0;
     }
@@ -18,8 +15,8 @@
     h1, h2 {
       text-align: center;
       color: #1e5128; /* Dark golf-course green */
-      font-family: 'Comic Sans MS', cursive; /* Add playful font for headings */
-      text-shadow: 2px 2px 4px #5c8a49; /* Adding some shadow */
+      font-family: 'Comic Sans MS', cursive;
+      text-shadow: 2px 2px 4px #5c8a49;
     }
 
     input, button {
@@ -29,7 +26,7 @@
       display: block;
       font-size: 16px;
       border: 2px solid #1e5128; /* Green border */
-      background-color: #b6edc8; /* Light green background for input */
+      background-color: #b6edc8;
       border-radius: 8px;
     }
 
@@ -37,22 +34,21 @@
       background-color: #1e5128;
       color: white;
       cursor: pointer;
-      transition: transform 0.2s; /* Adds animation effect */
+      transition: transform 0.2s;
     }
 
     button:hover {
       background-color: #417d3e;
-      transform: scale(1.05); /* Grow slightly on hover */
+      transform: scale(1.05);
     }
 
     table {
       width: 80%;
       margin: 20px auto;
       border-collapse: collapse;
-      background-color: #e6ffea; /* Soft green for table background */
+      background-color: #e6ffea;
       border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
 
     th, td {
@@ -86,6 +82,9 @@
     }
   </style>
   <script>
+    // Local leaderboard data
+    let leaderboard = [];
+
     let courses = {
       "Torrey Pines North": { par: 72, difficulty: 74.0 },
       "Torrey Pines South": { par: 72, difficulty: 77.8 },
@@ -95,107 +94,72 @@
       "Admiral Baker North Course": { par: 72, difficulty: 73.2 },
       "Admiral Baker South Course": { par: 72, difficulty: 71.4 },
       "Riverwalk Golf Club": { par: 72, difficulty: 71.8 },
-      "Maderas Golf Club": { par: 72, difficulty: 75.1 },
-      "Rancho Bernardo Inn Golf Club": { par: 72, difficulty: 71.7 },
-      "Encinitas Ranch Golf Course": { par: 72, difficulty: 72.6 },
-      "The Crossings at Carlsbad": { par: 72, difficulty: 73.0 },
-      "Steele Canyon Golf Club": { par: 72, difficulty: 73.5 },
-      "Aviara Golf Club": { par: 72, difficulty: 74.2 },
-      "La Costa Champions Course": { par: 72, difficulty: 74.0 },
-      "La Costa Legends Course": { par: 72, difficulty: 73.4 },
-      "Fairbanks Ranch Country Club": { par: 72, difficulty: 74.8 },
-      "Singing Hills Golf Resort (Willow Glen)": { par: 72, difficulty: 73.4 },
-      "Singing Hills Golf Resort (Oak Glen)": { par: 72, difficulty: 72.2 },
-      "Bernardo Heights Country Club": { par: 72, difficulty: 73.0 },
-      "Mt. Woodson Golf Club": { par: 70, difficulty: 71.0 },
-      "Twin Oaks Golf Course": { par: 72, difficulty: 71.8 },
-      "Salt Creek Golf Club": { par: 72, difficulty: 72.9 },
-      "Bonita Golf Course": { par: 71, difficulty: 71.2 },
-      "Sycuan Golf Resort (Pine Glen)": { par: 54, difficulty: 55.0 },
-      "San Vicente Golf Resort": { par: 72, difficulty: 72.5 },
-      "St. Mark Golf Club": { par: 71, difficulty: 70.4 },
-      "Reidy Creek Golf Course": { par: 54, difficulty: 58.0 },
-      "Eastlake Country Club": { par: 72, difficulty: 72.4 },
-      "Cottonwood Golf Club (Ivanhoe)": { par: 72, difficulty: 72.8 },
-      "Cottonwood Golf Club (Lakes)": { par: 72, difficulty: 71.5 },
-      "The Vineyard at Escondido": { par: 70, difficulty: 70.5 }
+      "Maderas Golf Club": { par: 72, difficulty: 75.1 }
+      // More courses can be added
     };
-
-    let users = {}; // To store user scores
-
-    let leaderboard = [];
 
     function searchCourse() {
       let input = document.getElementById('course-input').value.toLowerCase();
       let resultList = document.getElementById('course-results');
-      resultList.innerHTML = '';
+      resultList.innerHTML = ''; // Clear previous results
+
+      // If input is empty, return
+      if (input === '') {
+        return;
+      }
+
       for (let course in courses) {
         if (course.toLowerCase().includes(input)) {
           let option = document.createElement('div');
           option.innerText = course;
+
           option.onclick = function() {
             document.getElementById('course-input').value = course;
             document.getElementById('difficulty').value = courses[course].difficulty;
-            resultList.innerHTML = '';
+            resultList.innerHTML = ''; // Clear the results after selecting
           };
+
           resultList.appendChild(option);
         }
       }
+
+      if (resultList.innerHTML === '') {
+        resultList.innerHTML = '<div>No courses found</div>';
+      }
     }
 
-function submitScore() {
-  let username = document.getElementById('username-input').value;
-  let course = document.getElementById('course-input').value;
-  let score = parseFloat(document.getElementById('score-input').value);
-  let handicap = parseFloat(document.getElementById('handicap-input').value);
-  let difficulty = parseFloat(document.getElementById('difficulty').value);
-  let weightedScore = (score - handicap) * (113 / difficulty);
+    function submitScore() {
+      let username = document.getElementById('username-input').value;
+      let course = document.getElementById('course-input').value;
+      let score = parseFloat(document.getElementById('score-input').value);
+      let handicap = parseFloat(document.getElementById('handicap-input').value);
+      let difficulty = parseFloat(document.getElementById('difficulty').value);
 
-  // Create an object with the score data
-  let scoreData = {
-    username: username,
-    course: course,
-    score: score,
-    handicap: handicap,
-    difficulty: difficulty,
-    weightedScore: weightedScore
-  };
+      if (!username || !course || isNaN(score) || isNaN(handicap) || isNaN(difficulty)) {
+        alert("Please fill in all fields.");
+        return;
+      }
 
-  fetch('https://script.google.com/macros/s/YOUR_DEPLOYED_URL/exec', {
-    method: 'POST',
-    body: JSON.stringify(scoreData),
-    headers: {
-      'Content-Type': 'application/json'
+      let weightedScore = (score - handicap) * (113 / difficulty);
+
+      // Add the new score to the leaderboard
+      leaderboard.push({ username, course, score, handicap, difficulty, weightedScore });
+      displayLeaderboard();
     }
-  })
-  .then(response => response.text())
-  .then(result => {
-    alert(result); // Confirm success
-    displayLeaderboard(); // Refresh the leaderboard after submission
-  })
-  .catch(error => {
-    console.error('Error:', error); // Log any error
-    alert('Failed to submit the score. Please try again.');
-  });
-}
 
     function displayLeaderboard() {
-      fetch('https://script.google.com/macros/s/AKfycbwElgd2SxtDOoqO0erraQrnsPWrbkQn6gunIfmtYwsKxyZ4KeHkKaHu0gIH8PgNhcIIWA/exec')
-        .then(response => response.json())
-        .then(data => {
-          let table = document.getElementById('leaderboard');
-          table.innerHTML = '<tr><th>Username</th><th>Course</th><th>Score</th><th>Handicap</th><th>Difficulty</th><th>Weighted Score</th></tr>';
-          data.forEach(entry => {
-            let row = table.insertRow();
-            row.innerHTML = `<td>${entry[0]}</td><td>${entry[1]}</td><td>${entry[2]}</td><td>${entry[3]}</td><td>${entry[4]}</td><td>${entry[5]}</td>`;
-          });
-        });
+      let table = document.getElementById('leaderboard');
+      table.innerHTML = '<tr><th>Username</th><th>Course</th><th>Score</th><th>Handicap</th><th>Difficulty</th><th>Weighted Score</th></tr>';
+      
+      leaderboard.forEach(entry => {
+        let row = table.insertRow();
+        row.innerHTML = `<td>${entry.username}</td><td>${entry.course}</td><td>${entry.score}</td><td>${entry.handicap}</td><td>${entry.difficulty}</td><td>${entry.weightedScore.toFixed(2)}</td>`;
+      });
     }
   </script>
 </head>
 <body>
   <h1>Golf Tournament Score Entry</h1>
-  <img src="https://images.pexels.com/photos/54123/pexels-photo-54123.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Golf Ball" width="50" style="display:block; margin:auto;">
 
   <label for="username-input">Username:</label>
   <input type="text" id="username-input" placeholder="Enter Username" required>
@@ -218,6 +182,5 @@ function submitScore() {
   <h2>Leaderboard</h2>
   <table id="leaderboard"></table>
 
-  <img src="https://example.com/golf-flag-pop-art.jpg" alt="Golf Flag Art" width="200" style="display:block; margin:auto; padding:20px 0;">
 </body>
 </html>
