@@ -164,7 +164,7 @@
   console.log(scoreData); // Debugging line
 
   // Send the data to the Google Sheets Web App
-  fetch('https://script.google.com/macros/s/AKfycbzdPiXq45z8PXupKhJvEz6egjwjXjKc9G911LqSvziNHHhwOASbnWjwVZL1dXA94NUCfA/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbwElgd2SxtDOoqO0erraQrnsPWrbkQn6gunIfmtYwsKxyZ4KeHkKaHu0gIH8PgNhcIIWA/exec', {
     method: 'POST',
     body: JSON.stringify(scoreData),
     headers: {
@@ -183,7 +183,7 @@
 }
 
     function displayLeaderboard() {
-      fetch('https://script.google.com/macros/s/AKfycbzdPiXq45z8PXupKhJvEz6egjwjXjKc9G911LqSvziNHHhwOASbnWjwVZL1dXA94NUCfA/exec')
+      fetch('https://script.google.com/macros/s/AKfycbwElgd2SxtDOoqO0erraQrnsPWrbkQn6gunIfmtYwsKxyZ4KeHkKaHu0gIH8PgNhcIIWA/exec')
         .then(response => response.json())
         .then(data => {
           let table = document.getElementById('leaderboard');
