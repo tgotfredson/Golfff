@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Golf App</title>
+</head>
+<body>
+    <h1>Golf Score Input</h1>
+    <form action="/submit" method="POST">
+        <label for="course">Course:</label>
+        <select name="course">
+            {% for course in courses %}
+                <option value="{{ course[0] }}">{{ course[1] }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="score">Score:</label>
+        <input type="number" name="score" required><br>
+
+        <label for="handicap">Handicap:</label>
+        <input type="number" step="0.1" name="handicap" required><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
