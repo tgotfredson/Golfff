@@ -5,9 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Golf Tournament</title>
   <style>
-    body {
+    
+     body {
       font-family: 'Verdana', sans-serif;
-      background-color: #e0f8d8;
+      background-image: url('https://images.pexels.com/photos/54123/pexels-photo-54123.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); /* Replace with an actual image URL */
+      background-color: #e0f8d8; /* Light green background */
+      background-size: cover;
+      background-position: center;
       margin: 0;
       padding: 0;
     }
@@ -15,8 +19,8 @@
     h1, h2 {
       text-align: center;
       color: #1e5128; /* Dark golf-course green */
-      font-family: 'Comic Sans MS', cursive;
-      text-shadow: 2px 2px 4px #5c8a49;
+      font-family: 'Comic Sans MS', cursive; /* Add playful font for headings */
+      text-shadow: 2px 2px 4px #5c8a49; /* Adding some shadow */
     }
 
     input, button {
@@ -26,7 +30,7 @@
       display: block;
       font-size: 16px;
       border: 2px solid #1e5128; /* Green border */
-      background-color: #b6edc8;
+      background-color: #b6edc8; /* Light green background for input */
       border-radius: 8px;
     }
 
@@ -34,21 +38,22 @@
       background-color: #1e5128;
       color: white;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: transform 0.2s; /* Adds animation effect */
     }
 
     button:hover {
       background-color: #417d3e;
-      transform: scale(1.05);
+      transform: scale(1.05); /* Grow slightly on hover */
     }
 
     table {
       width: 80%;
       margin: 20px auto;
       border-collapse: collapse;
-      background-color: #e6ffea;
+      background-color: #e6ffea; /* Soft green for table background */
       border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
     }
 
     th, td {
