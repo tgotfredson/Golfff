@@ -137,36 +137,47 @@
 
     function submitScore() {
       let username = document.getElementById('username-input').value;
-      let course = document.getElementById('course-input').value;
-      let score = parseFloat(document.getElementById('score-input').value);
-      let handicap = parseFloat(document.getElementById('handicap-input').value);
-      let difficulty = parseFloat(document.getElementById('difficulty').value);
+  let course = document.getElementById('course-input').value;
+  let score = parseFloat(document.getElementById('score-input').value);
+  let handicap = parseFloat(document.getElementById('handicap-input').value);
+  let difficulty = parseFloat(document.getElementById('difficulty').value);
 
-      // Check if username exists
-      if (!users[username]) {
-        let addUser = confirm(`Username "${username}" does not exist. Would you like to add it?`);
-        if (addUser) {
-          users[username] = []; // Initialize the user with an empty array of scores
-          alert(`Username "${username}" has been added.`);
-        } else {
-          return; // Stop if the user does not want to add the username
-        }
-      }
-
-      if (course && score && handicap && difficulty) {
-        let weightedScore = (score - handicap) * (113 / difficulty);
-        let scoreEntry = { course, score, handicap, difficulty, weightedScore };
-
-        // Add the score to the user's scores
-        users[username].push(scoreEntry);
-
-        leaderboard.push({ username, course, score, handicap, difficulty, weightedScore });
-        displayLeaderboard();
-      } else {
-        alert("Please fill in all fields.");
-      }
+  // Check if username exists
+  if (!users[username]) {
+    let addUser = confirm(`Username "${username}" does not exist. Would you like to add it?`);
+    if (addUser) {
+      users[username] = []; // Initialize the user with an empty array of scores
+      alert(`Username "${username}" has been added.`);
+    } else {
+      return; // Stop if the user does not want to add the username
     }
+  }
 
+  if (course && score && handicap && difficulty) {
+    let weightedScore = (score - handicap) * (113 / difficulty);
+    let scoreEntry = { course, score, handicap, difficulty, weightedScore };
+
+    // Add the score to the user's scores
+    users[username].push(scoreEntry);
+
+    leaderboard.push({ username, course, score, handicap, difficulty, weightedScore });
+    displayLeaderboard();
+
+    // Display result and weighted score explanation
+    alert(`Score Submitted!\n
+      Course: ${course}\n
+      Score: ${score}\n
+      Handicap: ${handicap}\n
+      Difficulty Index: ${difficulty}\n
+      Weighted Score: ${weightedScore.toFixed(2)}\n\n
+      Weighted Score Calculation:\n
+      (Score - Handicap) * (113 / Difficulty Index)\n
+      (${score} - ${handicap}) * (113 / ${difficulty}) = ${weightedScore.toFixed(2)}
+    `);
+  } else {
+    alert("Please fill in all fields.");
+  }
+}
     function displayLeaderboard() {
       let table = document.getElementById('leaderboard');
       table.innerHTML = '<tr><th>Username</th><th>Course</th><th>Score</th><th>Handicap</th><th>Difficulty</th><th>Weighted Score</th></tr>';
